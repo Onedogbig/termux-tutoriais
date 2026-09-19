@@ -1,0 +1,11 @@
+# Clone (se criou com README) ou apenas faça upload
+git clone https://github.com/SEU-USUARIO/termux-tutoriais.git
+cd termux-tutoriais
+
+# Copie o index.html
+cp /caminho/para/index.html .
+cp /caminho/para/README.md .
+
+git add .
+git commit -m "Add Termux tutorials page"
+git push origin main
