@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CLUBE DO TERMUX · 250+ Tutoriais do Básico ao Avançado</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --neon: #00ffc8;
+      --neon-dim: #00e6b0;
+      --bg-primary: #0a0d14;
+      --bg-card: #0f141e;
+      --bg-card2: #131a26;
+      --border: #1e2d3e;
+      --text-primary: #d4e6ff;
+      --text-secondary: #8da6c0;
+      --text-muted: #4d6a8a;
+      --accent-blue: #3d7eff;
+      --gold: #ffd700;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg-primary);
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-primary);
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg-primary); }
+    ::-webkit-scrollbar-thumb { background: var(--neon); border-radius: 10px; }
+
+    .grid-bg {
+      position: fixed; inset: 0;
+      background-image:
+        linear-gradient(rgba(0,255,200,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,255,200,0.03) 1px, transparent 1px);
+      background-size: 50px 50px;
+      pointer-events: none; z-index: 0;
+      animation: gridPulse 10s ease-in-out infinite;
+    }
+    @keyframes gridPulse {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 0.8; }
+    }
+
+    .particles {
+      position: fixed; inset: 0; z-index: 0;
+      pointer-events: none; overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 3px; height: 3px;
+      background: var(--neon);
+      border-radius: 50%;
+      opacity: 0;
+      animation: particleFloat 6s infinite;
+      box-shadow: 0 0 6px var(--neon);
+    }
+    @keyframes particleFloat {
+      0% { opacity: 0; transform: translateY(100vh) scale(0); }
+      20% { opacity: 0.8; }
+      80% { opacity: 0.4; }
+      100% { opacity: 0; transform: translateY(-10vh) scale(1); }
+    }
+
+    .container {
+      position: relative; z-index: 10;
+      max-width: 1200px; margin: 0 auto;
+      padding: 1.5rem;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 3rem 1rem 2rem;
+      position: relative;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute; bottom: 0; left: 10%; right: 10%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--neon), transparent);
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center; gap: 10px;
+      background: rgba(0,255,200,0.08);
+      border: 1px solid var(--neon);
+      padding: 0.4rem 1.4rem;
+      border-radius: 100px;
+      font-size: 0.7rem;
+      color: var(--neon-dim);
+      letter-spacing: 0.15em;
+      margin-bottom: 1.2rem;
+      animation: fadeInDown 0.8s ease;
+    }
+
+    .live-dot {
+      width: 10px; height: 10px;
+      background: var(--neon);
+      border-radius: 50%;
+      animation: blink 1.2s step-end infinite;
+      box-shadow: 0 0 14px var(--neon);
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.2; }
+    }
+
+    .hero .logo-clube {
+      font-size: clamp(1.2rem, 3vw, 1.8rem);
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 0.3rem;
+      text-shadow: 0 0 20px rgba(255,215,0,0.2);
+      animation: fadeInDown 0.6s ease;
+    }
+    .hero .logo-clube i {
+      color: var(--neon);
+      margin: 0 8px;
+    }
+
+    .hero h1 {
+      font-size: clamp(1.8rem, 5vw, 3.2rem);
+      font-weight: 800;
+      background: linear-gradient(135deg, #fff 0%, var(--neon) 50%, #3d7eff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.2;
+      animation: fadeInUp 0.8s ease;
+    }
+
+    .hero p {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      margin-top: 0.8rem;
+      animation: fadeInUp 1s ease;
+    }
+
+    .hero-stats {
+      display: flex; justify-content: center; gap: 2rem;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+      animation: fadeInUp 1.2s ease;
+    }
+    .hero-stats .stat {
+      display: flex; flex-direction: column; align-items: center;
+    }
+    .hero-stats .stat .num {
+      font-size: 1.6rem; font-weight: 700;
+      color: var(--neon-dim);
+    }
+    .hero-stats .stat .lbl {
+      font-size: 0.6rem; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: 0.1em;
+    }
+
+    .hero .social-repos {
+      display: flex; justify-content: center; gap: 0.8rem;
+      margin-top: 1.2rem;
+      flex-wrap: wrap;
+      animation: fadeInUp 1.4s ease;
+    }
+    .hero .social-repos a {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--bg-card2);
+      border: 1px solid var(--border);
+      padding: 0.3rem 1rem;
+      border-radius: 30px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.65rem;
+      transition: all 0.3s;
+    }
+    .hero .social-repos a:hover {
+      border-color: var(--neon);
+      color: var(--neon-dim);
+      transform: translateY(-2px);
+    }
+    .hero .social-repos a i { color: var(--neon-dim); }
+
+    .hero .social-repos .social-divider {
+      color: var(--text-muted);
+      font-size: 0.6rem;
+      display: flex;
+      align-items: center;
+    }
+    .hero .social-repos a.social-link {
+      border-color: rgba(255,215,0,0.15);
+    }
+    .hero .social-repos a.social-link:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInDown {
+      0% { opacity: 0; transform: translateY(-20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .search-section {
+      margin: 2rem 0 1.5rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      align-items: center;
+      animation: fadeInUp 1s ease;
+    }
+
+    .search-box {
+      flex: 1; min-width: 200px;
+      display: flex; align-items: center;
+      background: var(--bg-card2);
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      padding: 0.4rem 0.4rem 0.4rem 1.2rem;
+      transition: all 0.3s;
+    }
+    .search-box:focus-within {
+      border-color: var(--neon);
+      box-shadow: 0 0 20px rgba(0,255,200,0.1);
+    }
+    .search-box i { color: var(--text-muted); margin-right: 8px; }
+    .search-box input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text-primary);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      padding: 0.5rem 0;
+    }
+    .search-box input::placeholder { color: var(--text-muted); }
+    .search-box .clear-btn {
+      background: transparent; border: none;
+      color: var(--text-muted); cursor: pointer;
+      padding: 0.5rem 1rem;
+      display: none;
+      font-size: 0.8rem;
+    }
+    .search-box .clear-btn.show { display: block; }
+
+    .filter-group {
+      display: flex; gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .filter-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      padding: 0.5rem 1.2rem;
+      border-radius: 50px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .filter-btn:hover {
+      border-color: var(--neon);
+      color: var(--neon-dim);
+    }
+    .filter-btn.active {
+      background: rgba(0,255,200,0.1);
+      border-color: var(--neon);
+      color: var(--neon-dim);
+      box-shadow: 0 0 15px rgba(0,255,200,0.05);
+    }
+    .filter-btn i { margin-right: 6px; }
+
+    .result-count {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      margin: 0.5rem 0 1rem;
+      width: 100%;
+    }
+
+    .category {
+      margin: 2.5rem 0;
+      animation: fadeInUp 0.8s ease;
+    }
+
+    .category-header {
+      display: flex;
+      align-items: center; gap: 1rem;
+      margin-bottom: 1.2rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      user-select: none;
+    }
+    .category-header:hover { border-color: var(--neon); }
+
+    .category-header .icon {
+      width: 40px; height: 40px;
+      background: rgba(0,255,200,0.08);
+      border: 1px solid var(--neon);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--neon-dim);
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+    .category-header h2 {
+      font-size: 1rem; font-weight: 700;
+      letter-spacing: 0.03em;
+    }
+    .category-header .count {
+      margin-left: auto;
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      background: var(--bg-card2);
+      padding: 0.2rem 0.8rem;
+      border-radius: 30px;
+      white-space: nowrap;
+    }
+    .category-header .toggle-icon {
+      color: var(--text-muted);
+      transition: transform 0.3s;
+      margin-left: 0.5rem;
+    }
+    .category-header .toggle-icon.collapsed {
+      transform: rotate(-90deg);
+    }
+
+    .tutorial-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 0.8rem;
+      transition: all 0.3s;
+    }
+    .category.collapsed .tutorial-grid { display: none; }
+
+    .tutorial-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1rem 1.2rem;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    .tutorial-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--neon), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .tutorial-card:hover {
+      border-color: var(--neon);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(0,255,200,0.08);
+    }
+    .tutorial-card:hover::before { opacity: 1; }
+    .tutorial-card .num {
+      font-size: 0.6rem;
+      color: var(--text-muted);
+      margin-bottom: 0.3rem;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .tutorial-card .num .level {
+      padding: 0.1rem 0.5rem;
+      border-radius: 20px;
+      font-size: 0.55rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .tutorial-card .num .level.basico { background: rgba(0,100,255,0.15); color: #5a9eff; border: 1px solid rgba(0,100,255,0.3); }
+    .tutorial-card .num .level.intermediario { background: rgba(255,200,0,0.12); color: #ffd75a; border: 1px solid rgba(255,200,0,0.3); }
+    .tutorial-card .num .level.avancado { background: rgba(255,50,50,0.12); color: #ff5a5a; border: 1px solid rgba(255,50,50,0.3); }
+
+    .tutorial-card .cmd {
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: var(--neon-dim);
+      margin: 0.3rem 0;
+      word-break: break-all;
+    }
+    .tutorial-card .cmd i {
+      font-size: 0.6rem;
+      margin-right: 6px;
+    }
+    .tutorial-card .desc {
+      font-size: 0.7rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      margin-top: 0.3rem;
+    }
+    .tutorial-card .tags {
+      display: flex; gap: 0.3rem;
+      margin-top: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .tutorial-card .tags .tag {
+      font-size: 0.55rem;
+      background: var(--bg-card2);
+      padding: 0.15rem 0.6rem;
+      border-radius: 20px;
+      color: var(--text-muted);
+      border: 1px solid transparent;
+    }
+    .tutorial-card .tags .tag.cmd-tag {
+      color: var(--neon-dim);
+      border-color: rgba(0,255,200,0.2);
+    }
+
+    .tutorial-card .repo-badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 0.5rem;
+      background: rgba(255,215,0,0.1);
+      color: var(--gold);
+      padding: 0.1rem 0.5rem;
+      border-radius: 20px;
+      border: 1px solid rgba(255,215,0,0.2);
+      margin-top: 0.3rem;
+    }
+
+    .tutorial-card .copy-btn {
+      position: absolute; top: 0.6rem; right: 0.6rem;
+      background: transparent; border: none;
+      color: var(--text-muted); cursor: pointer;
+      font-size: 0.7rem;
+      padding: 0.3rem;
+      border-radius: 6px;
+      transition: all 0.2s;
+      opacity: 0;
+    }
+    .tutorial-card:hover .copy-btn { opacity: 1; }
+    .tutorial-card .copy-btn:hover {
+      color: var(--neon-dim);
+      background: rgba(0,255,200,0.1);
+    }
+    .tutorial-card .copy-btn.copied { color: #00ff88; }
+
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      animation: fadeIn 0.3s ease;
+    }
+    .modal-overlay.open { display: flex; }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
+    .modal {
+      background: var(--bg-primary);
+      border: 1px solid var(--neon);
+      border-radius: 20px;
+      max-width: 650px;
+      width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 0 60px rgba(0,255,200,0.08);
+      animation: modalIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes modalIn {
+      0% { opacity: 0; transform: scale(0.9) translateY(20px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .modal-header h3 {
+      font-size: 0.9rem;
+      color: var(--neon-dim);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .modal-close {
+      background: transparent; border: none;
+      color: var(--text-muted); cursor: pointer;
+      font-size: 1.2rem;
+      padding: 0.3rem;
+      transition: color 0.2s;
+    }
+    .modal-close:hover { color: var(--neon-dim); }
+
+    .modal-body { padding: 1.5rem; }
+    .modal-body .modal-desc {
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+      margin-bottom: 1rem;
+      line-height: 1.6;
+    }
+    .modal-body .modal-cmd {
+      background: var(--bg-card2);
+      border-radius: 12px;
+      padding: 1rem;
+      position: relative;
+      margin-bottom: 1rem;
+      border: 1px solid var(--border);
+    }
+    .modal-body .modal-cmd pre {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--neon-dim);
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+    .modal-body .modal-cmd .copy-cmd-btn {
+      position: absolute; top: 0.5rem; right: 0.5rem;
+      background: transparent; border: none;
+      color: var(--text-muted); cursor: pointer;
+      font-size: 0.7rem;
+      padding: 0.3rem 0.6rem;
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+    .modal-body .modal-cmd .copy-cmd-btn:hover {
+      color: var(--neon-dim);
+      background: rgba(0,255,200,0.1);
+    }
+    .modal-body .modal-repo-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 0.65rem;
+      color: var(--gold);
+      background: rgba(255,215,0,0.06);
+      border: 1px solid rgba(255,215,0,0.2);
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      margin-bottom: 1rem;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .modal-body .modal-repo-link:hover {
+      background: rgba(255,215,0,0.12);
+      border-color: var(--gold);
+    }
+
+    .modal-output {
+      background: #05080e;
+      border-radius: 12px;
+      padding: 1rem;
+      font-size: 0.7rem;
+      color: var(--text-secondary);
+      border: 1px solid var(--border);
+      line-height: 1.8;
+    }
+    .modal-output .prompt-symbol { color: var(--neon-dim); }
+    .modal-output .output-text { color: #7a9abb; }
+
+    .quick-nav {
+      position: fixed; right: 1rem; top: 50%;
+      transform: translateY(-50%);
+      z-index: 50;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .quick-nav a {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--border);
+      transition: all 0.3s;
+      display: block;
+    }
+    .quick-nav a:hover,
+    .quick-nav a.active {
+      background: var(--neon);
+      box-shadow: 0 0 10px var(--neon);
+      transform: scale(1.3);
+    }
+
+    .repo-section-banner {
+      background: linear-gradient(135deg, rgba(255,215,0,0.05), rgba(0,255,200,0.05));
+      border: 1px solid rgba(255,215,0,0.15);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      text-align: center;
+    }
+    .repo-section-banner h3 {
+      color: var(--gold);
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+    }
+    .repo-section-banner p {
+      color: var(--text-secondary);
+      font-size: 0.75rem;
+    }
+    .repo-section-banner .repo-links {
+      display: flex; justify-content: center; gap: 0.8rem;
+      margin-top: 0.8rem;
+      flex-wrap: wrap;
+    }
+    .repo-section-banner .repo-links a {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 0.3rem 1rem;
+      border-radius: 30px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.6rem;
+      transition: all 0.3s;
+    }
+    .repo-section-banner .repo-links a:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    .footer {
+      text-align: center;
+      padding: 3rem 1rem 2rem;
+      border-top: 1px solid var(--border);
+      margin-top: 3rem;
+    }
+    .footer .social-links {
+      display: flex; justify-content: center; gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .footer .social-links a {
+      color: var(--text-muted);
+      font-size: 1.2rem;
+      transition: all 0.3s;
+    }
+    .footer .social-links a:hover {
+      color: var(--neon-dim);
+      transform: translateY(-2px);
+    }
+    .footer p {
+      font-size: 0.65rem;
+      color: var(--text-muted);
+    }
+    .footer .highlight {
+      color: var(--gold);
+    }
+
+    @media (max-width: 768px) {
+      .tutorial-grid { grid-template-columns: 1fr; }
+      .search-section { flex-direction: column; }
+      .quick-nav { display: none; }
+      .container { padding: 1rem; }
+    }
+
+    @media (max-width: 480px) {
+      .hero h1 { font-size: 1.4rem; }
+      .hero-stats { gap: 1rem; }
+      .filter-btn { font-size: 0.6rem; padding: 0.4rem 0.8rem; }
+    }
+
+    .no-results {
+      text-align: center;
+      padding: 3rem;
+      color: var(--text-muted);
+      display: none;
+    }
+    .no-results.show { display: block; }
+    .no-results i { font-size: 2rem; margin-bottom: 1rem; color: var(--border); }
+  </style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+<div class="particles" id="particles"></div>
+
+<nav class="quick-nav" id="quickNav"></nav>
+
+<div class="container">
+
+  <header class="hero">
+    <div class="hero-badge">
+      <span class="live-dot"></span>
+      <span>COMUNIDADE · OPEN SOURCE</span>
+    </div>
+    <div class="logo-clube">
+      <i class="fas fa-terminal"></i> CLUBE DO TERMUX <i class="fas fa-skull"></i>
+    </div>
+    <h1>🐚 250+ TUTORIAIS</h1>
+    <p>Do básico ao avançado — O guia definitivo de comandos e ferramentas para Termux</p>
+    <div class="hero-stats">
+      <div class="stat"><span class="num" id="totalTuts">250+</span><span class="lbl">Tutoriais</span></div>
+      <div class="stat"><span class="num">12</span><span class="lbl">Categorias</span></div>
+      <div class="stat"><span class="num">10+</span><span class="lbl">Repositórios</span></div>
+    </div>
+    <div class="social-repos">
+      <a href="https://github.com/ClubeDoTermux/clube-do-termux" target="_blank"><i class="fab fa-github"></i> clube-do-termux</a>
+      <a href="https://github.com/ClubeDoTermux/termux-prompt-installer" target="_blank"><i class="fas fa-paint-brush"></i> prompt-installer</a>
+      <a href="https://github.com/ClubeDoTermux/mini-llm-termux" target="_blank"><i class="fas fa-brain"></i> mini-llm</a>
+      <a href="https://github.com/ClubeDoTermux/cybertrace-panel" target="_blank"><i class="fas fa-search"></i> cybertrace</a>
+      <a href="https://github.com/ClubeDoTermux/ALHacking" target="_blank"><i class="fas fa-skull"></i> ALHacking</a>
+      <span class="social-divider">|</span>
+      <a href="https://t.me/ClubeDoTermux" target="_blank" class="social-link"><i class="fab fa-telegram"></i> Telegram</a>
+      <a href="https://www.instagram.com/clubedotermux" target="_blank" class="social-link"><i class="fab fa-instagram"></i> Instagram</a>
+      <a href="https://www.tiktok.com/@clube.do.termux" target="_blank" class="social-link"><i class="fab fa-tiktok"></i> TikTok</a>
+    </div>
+  </header>
+
+  <div class="search-section">
+    <div class="search-box">
+      <i class="fas fa-search"></i>
+      <input type="text" id="searchInput" placeholder="Buscar tutorial... (ex: python, nmap, ssh, prompt)">
+      <button class="clear-btn" id="clearBtn"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="filter-group" id="filterGroup">
+      <button class="filter-btn active" data-level="all"><i class="fas fa-layer-group"></i> Todos</button>
+      <button class="filter-btn" data-level="basico"><i class="fas fa-seedling"></i> Básico</button>
+      <button class="filter-btn" data-level="intermediario"><i class="fas fa-rocket"></i> Intermediário</button>
+      <button class="filter-btn" data-level="avancado"><i class="fas fa-skull"></i> Avançado</button>
+    </div>
+    <div class="result-count" id="resultCount">Mostrando todos os tutoriais</div>
+  </div>
+
+  <div class="repo-section-banner">
+    <h3><i class="fas fa-code-branch"></i> REPOSITÓRIOS OFICIAIS DO CLUBE</h3>
+    <p>Tutoriais baseados em projetos reais da comunidade — prompt personalizado, mini IA, painel de investigação, hacking tools e mais</p>
+    <div class="repo-links">
+      <a href="https://github.com/ClubeDoTermux/termux-prompt-installer" target="_blank"><i class="fas fa-paint-brush"></i> Prompt Installer</a>
+      <a href="https://github.com/ClubeDoTermux/mini-llm-termux" target="_blank"><i class="fas fa-brain"></i> Mini LLM</a>
+      <a href="https://github.com/ClubeDoTermux/cybertrace-panel" target="_blank"><i class="fas fa-search"></i> CyberTrace Panel</a>
+      <a href="https://github.com/ClubeDoTermux/ALHacking" target="_blank"><i class="fas fa-skull"></i> ALHacking</a>
+      <a href="https://github.com/ClubeDoTermux/Banner-Termux-" target="_blank"><i class="fas fa-image"></i> Banner Termux</a>
+      <a href="https://github.com/ClubeDoTermux/clube-do-termux" target="_blank"><i class="fab fa-github"></i> Clube do Termux</a>
+    </div>
+  </div>
+
+  <div id="tutorialsContainer"></div>
+
+  <div class="no-results" id="noResults">
+    <i class="fas fa-search-minus"></i>
+    <p>Nenhum tutorial encontrado</p>
+    <p style="font-size:0.7rem;margin-top:0.3rem;">Tente outros termos como "python", "nmap", "ssh", "prompt"</p>
+  </div>
+
+  <footer class="footer">
+    <div class="social-links">
+      <a href="https://github.com/ClubeDoTermux" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+      <a href="https://github.com/ClubeDoTermux/clube-do-termux" target="_blank" title="Clube do Termux"><i class="fas fa-terminal"></i></a>
+      <a href="https://t.me/ClubeDoTermux" target="_blank" title="Telegram"><i class="fab fa-telegram"></i></a>
+      <a href="https://www.instagram.com/clubedotermux" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+      <a href="https://www.tiktok.com/@clube.do.termux" target="_blank" title="TikTok"><i class="fab fa-tiktok"></i></a>
+    </div>
+    <p><span class="highlight">CLUBE DO TERMUX</span> · COMPILADO COM 💚 PELA COMUNIDADE</p>
+    <p style="margin-top:0.3rem">Aprenda tecnologia pelo celular · github.com/ClubeDoTermux</p>
+  </footer>
+</div>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h3><i class="fas fa-terminal"></i> <span id="modalTitle">COMANDO</span></h3>
+      <button class="modal-close" id="modalClose"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-desc" id="modalDesc"></div>
+      <a class="modal-repo-link" id="modalRepoLink" href="#" target="_blank" style="display:none">
+        <i class="fab fa-github"></i> <span id="modalRepoName">Ver repositório</span>
+      </a>
+      <div class="modal-cmd">
+        <button class="copy-cmd-btn" id="modalCopyBtn"><i class="fas fa-copy"></i> Copiar</button>
+        <pre id="modalCmd"></pre>
+      </div>
+      <div class="modal-output" id="modalOutput"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const tutorials = [
+    // =============================================
+    // BÁSICO
+    // =============================================
+    { id: 1,  cmd: "pkg update && pkg upgrade",            desc: "Atualizar todos os pacotes do Termux. Essencial antes de instalar qualquer coisa.", level: "basico", cat: "iniciante", tags: ["pkg", "update", "sistema"] },
+    { id: 2,  cmd: "pkg install git",                      desc: "Instalar Git para clonar repositórios e versionar código.", level: "basico", cat: "iniciante", tags: ["git", "pkg", "install"] },
+    { id: 3,  cmd: "pkg install python",                   desc: "Instalar Python 3 no Termux para scripts e automação.", level: "basico", cat: "iniciante", tags: ["python", "pkg"] },
+    { id: 4,  cmd: "pkg install nodejs",                   desc: "Instalar Node.js para rodar JavaScript no terminal.", level: "basico", cat: "iniciante", tags: ["nodejs", "javascript"] },
+    { id: 5,  cmd: "pkg install openssh",                  desc: "Instalar OpenSSH para conexões SSH seguras.", level: "basico", cat: "iniciante", tags: ["ssh", "openssh"] },
+    { id: 6,  cmd: "pkg install wget",                     desc: "Wget para baixar arquivos diretamente da internet.", level: "basico", cat: "iniciante", tags: ["wget", "download"] },
+    { id: 7,  cmd: "pkg install curl",                     desc: "Curl para fazer requisições HTTP/HTTPS.", level: "basico", cat: "iniciante", tags: ["curl", "http"] },
+    { id: 8,  cmd: "pkg install nano",                     desc: "Editor de texto Nano para editar arquivos no terminal.", level: "basico", cat: "iniciante", tags: ["nano", "editor"] },
+    { id: 9,  cmd: "pkg install vim",                      desc: "Vim — editor de texto poderoso para programadores.", level: "basico", cat: "iniciante", tags: ["vim", "editor"] },
+    { id: 10, cmd: "pkg install fish",                     desc: "Fish shell — shell interativo com autosuggestions.", level: "basico", cat: "iniciante", tags: ["fish", "shell"] },
+    { id: 11, cmd: "pkg install zsh",                      desc: "Zsh com Oh My Zsh para um terminal mais bonito e funcional.", level: "basico", cat: "iniciante", tags: ["zsh", "shell", "ohmyzsh"] },
+    { id: 12, cmd: "pkg install neofetch",                 desc: "Neofetch exibe informações do sistema com estilo.", level: "basico", cat: "iniciante", tags: ["neofetch", "info"] },
+    { id: 13, cmd: "pkg install htop",                     desc: "Htop — monitor de processos interativo para o terminal.", level: "basico", cat: "iniciante", tags: ["htop", "monitor"] },
+    { id: 14, cmd: "pkg install tree",                     desc: "Tree exibe diretórios em formato de árvore hierárquica.", level: "basico", cat: "iniciante", tags: ["tree", "files"] },
+    { id: 15, cmd: "pkg install unzip",                    desc: "Descompactar arquivos .zip no Termux.", level: "basico", cat: "iniciante", tags: ["unzip", "zip"] },
+    { id: 16, cmd: "pkg install tar",                      desc: "Trabalhar com arquivos .tar, .tar.gz compactados.", level: "basico", cat: "iniciante", tags: ["tar", "compactar"] },
+    { id: 17, cmd: "pkg install ffmpeg",                   desc: "FFmpeg — processar áudio e vídeo pelo terminal.", level: "basico", cat: "midia", tags: ["ffmpeg", "video", "audio"] },
+    { id: 18, cmd: "pkg install imagemagick",              desc: "ImageMagick — manipular imagens via comando.", level: "basico", cat: "midia", tags: ["imagemagick", "imagem"] },
+    { id: 19, cmd: "pkg install sox",                      desc: "SoX — manipulador de áudio para efeitos e conversões.", level: "basico", cat: "midia", tags: ["sox", "audio"] },
+    { id: 20, cmd: "pkg install mpv",                      desc: "MPV player — tocar vídeos e músicas no terminal.", level: "basico", cat: "midia", tags: ["mpv", "player", "video"] },
+    { id: 21, cmd: "pkg install cmus",                     desc: "Cmus — player de música em terminal super leve.", level: "basico", cat: "midia", tags: ["cmus", "musica"] },
+    { id: 22, cmd: "pkg install youtube-dl",               desc: "Baixar vídeos e músicas do YouTube e outros sites.", level: "basico", cat: "midia", tags: ["youtube-dl", "download"] },
+    { id: 23, cmd: "yt-dlp 'URL'",                        desc: "yt-dlp — fork melhorado do youtube-dl para downloads rápidos.", level: "basico", cat: "midia", tags: ["yt-dlp", "youtube"] },
+    { id: 24, cmd: "pkg install termux-api",               desc: "API Termux para acessar sensores do celular (câmera, GPS, etc).", level: "basico", cat: "api", tags: ["termux-api", "sensores"] },
+    { id: 25, cmd: "termux-wifi-scaninfo",                 desc: "Escaneie redes Wi-Fi ao redor com o Termux API.", level: "basico", cat: "api", tags: ["wifi", "scan"] },
+    { id: 26, cmd: "termux-camera-photo /sdcard/foto.jpg", desc: "Tirar foto usando a câmera via terminal.", level: "basico", cat: "api", tags: ["camera", "foto"] },
+    { id: 27, cmd: "termux-battery-status",                desc: "Ver status da bateria (percentual, temperatura, etc).", level: "basico", cat: "api", tags: ["bateria", "status"] },
+    { id: 28, cmd: "pkg install sl",                       desc: "SL — um trem atravessa a tela quando você erra 'ls'. Easter egg.", level: "basico", cat: "diversao", tags: ["sl", "easter-egg"] },
+    { id: 29, cmd: "pkg install cmatrix",                  desc: "Cmatrix — efeito Matrix de chuva de códigos verdes.", level: "basico", cat: "diversao", tags: ["cmatrix", "matrix"] },
+    { id: 30, cmd: "pkg install cowsay",                   desc: "Cowsay — uma vaca fala o que você digitar. Divertido.", level: "basico", cat: "diversao", tags: ["cowsay", "ascii"] },
+    { id: 31, cmd: "pkg install figlet",                   desc: "Figlet — gerar textos em ASCII art gigantes.", level: "basico", cat: "diversao", tags: ["figlet", "ascii"] },
+    { id: 32, cmd: "pkg install lolcat",                   desc: "Lolcat — colorir outputs com efeito arco-íris.", level: "basico", cat: "diversao", tags: ["lolcat", "colorir"] },
+    { id: 33, cmd: "termux-setup-storage",                  desc: "Permitir acesso do Termux ao armazenamento do celular.", level: "basico", cat: "iniciante", tags: ["storage", "setup"] },
+    { id: 34, cmd: "ls -la",                               desc: "Listar arquivos com detalhes (permissões, tamanho, owner).", level: "basico", cat: "iniciante", tags: ["ls", "listar"] },
+    { id: 35, cmd: "cd /sdcard && ls",                     desc: "Acessar o armazenamento interno do Android.", level: "basico", cat: "iniciante", tags: ["cd", "sdcard"] },
+    { id: 36, cmd: "mkdir projetos && cd projetos",        desc: "Criar e entrar em uma pasta chamada 'projetos'.", level: "basico", cat: "iniciante", tags: ["mkdir", "pasta"] },
+    { id: 37, cmd: "rm -rf pasta",                         desc: "Remover pasta e todo conteúdo (cuidado ao usar!).", level: "basico", cat: "iniciante", tags: ["rm", "remover"] },
+    { id: 38, cmd: "cat arquivo.txt",                      desc: "Exibir conteúdo do arquivo no terminal.", level: "basico", cat: "iniciante", tags: ["cat", "visualizar"] },
+    { id: 39, cmd: "pkg search python",                    desc: "Buscar pacotes relacionados a Python nos repositórios.", level: "basico", cat: "iniciante", tags: ["pkg", "search"] },
+    { id: 40, cmd: "pkg list-installed",                   desc: "Listar todos os pacotes instalados no Termux.", level: "basico", cat: "iniciante", tags: ["pkg", "listar"] },
+    { id: 41, cmd: "pkg autoclean",                        desc: "Limpar cache de pacotes baixados.", level: "basico", cat: "iniciante", tags: ["pkg", "clean", "cache"] },
+    { id: 42, cmd: "whoami",                               desc: "Exibir o nome do usuário atual.", level: "basico", cat: "iniciante", tags: ["whoami"] },
+    { id: 43, cmd: "pwd",                                  desc: "Mostrar o diretório atual (Print Working Directory).", level: "basico", cat: "iniciante", tags: ["pwd"] },
+    { id: 44, cmd: "echo $HOME",                           desc: "Exibir o caminho da home directory.", level: "basico", cat: "iniciante", tags: ["echo", "home"] },
+    { id: 45, cmd: "date",                                 desc: "Exibir data e hora atuais do sistema.", level: "basico", cat: "iniciante", tags: ["date"] },
+    { id: 46, cmd: "uname -a",                             desc: "Exibir informações completas do kernel Linux.", level: "basico", cat: "iniciante", tags: ["uname", "kernel"] },
+    { id: 47, cmd: "free -h",                              desc: "Mostrar uso de memória RAM em formato legível.", level: "basico", cat: "iniciante", tags: ["free", "memoria"] },
+    { id: 48, cmd: "df -h",                                desc: "Mostrar espaço em disco das partições montadas.", level: "basico", cat: "iniciante", tags: ["df", "disco"] },
+    { id: 49, cmd: "pkg install which",                    desc: "Which mostra o caminho completo de um comando.", level: "basico", cat: "iniciante", tags: ["which"] },
+    { id: 50, cmd: "tail -f log.txt",                      desc: "Tail -f — monitorar arquivo em tempo real.", level: "basico", cat: "iniciante", tags: ["tail"] },
+    { id: 51, cmd: "pkg install jq",                       desc: "Jq — processar e filtrar JSON no terminal.", level: "basico", cat: "iniciante", tags: ["jq", "json"] },
+    { id: 52, cmd: "pkg install tmux",                     desc: "Tmux — multiplexador de terminais (várias abas).", level: "basico", cat: "iniciante", tags: ["tmux", "multiplex"] },
+    { id: 53, cmd: "pkg install ranger",                   desc: "Ranger — gerenciador de arquivos em terminal com Vim keys.", level: "basico", cat: "iniciante", tags: ["ranger", "files"] },
+    { id: 54, cmd: "pkg install mc",                       desc: "Midnight Commander — gerenciador com duas telas.", level: "basico", cat: "iniciante", tags: ["mc", "commander"] },
+    { id: 55, cmd: "pkg install fzf",                      desc: "Fzf — fuzzy finder para busca rápida no terminal.", level: "basico", cat: "iniciante", tags: ["fzf", "busca"] },
+
+    // =============================================
+    // PERSONALIZAÇÃO (Repositórios do Clube)
+    // =============================================
+    { id: 56, cmd: "pkg install figlet zsh",               desc: "Instalar Figlet + Zsh — base para personalizar o prompt. (termux-prompt-installer)", level: "basico", cat: "personalizar", tags: ["figlet", "zsh", "prompt"], repo: "termux-prompt-installer", repoUrl: "https://github.com/ClubeDoTermux/termux-prompt-installer" },
+    { id: 57, cmd: "git clone https://github.com/ClubeDoTermux/termux-prompt-installer", desc: "Clonar o instalador de prompt personalizado do Clube do Termux.", level: "basico", cat: "personalizar", tags: ["prompt", "instalador", "clone"], repo: "termux-prompt-installer", repoUrl: "https://github.com/ClubeDoTermux/termux-prompt-installer" },
+    { id: 58, cmd: "cd termux-prompt-installer && bash install.sh", desc: "Executar instalador interativo de prompt personalizado com banner Figlet e Zsh.", level: "intermediario", cat: "personalizar", tags: ["prompt", "install", "interativo"], repo: "termux-prompt-installer", repoUrl: "https://github.com/ClubeDoTermux/termux-prompt-installer" },
+    { id: 59, cmd: "figlet -f big 'NOME'",                desc: "Criar banner ASCII gigante com Figlet. Base do prompt personalizado.", level: "basico", cat: "personalizar", tags: ["figlet", "banner", "ascii"] },
+    { id: 60, cmd: "python termux_assistant.py",          desc: "Iniciar Mini LLM Assistant — IA que aprende com conversas no Termux. (mini-llm-termux)", level: "intermediario", cat: "personalizar", tags: ["llm", "ia", "assistente"], repo: "mini-llm-termux", repoUrl: "https://github.com/ClubeDoTermux/mini-llm-termux" },
+    { id: 61, cmd: "git clone https://github.com/ClubeDoTermux/mini-llm-termux", desc: "Clonar Mini LLM — inteligência artificial para Termux com aprendizado contínuo.", level: "intermediario", cat: "personalizar", tags: ["llm", "clone", "ia"], repo: "mini-llm-termux", repoUrl: "https://github.com/ClubeDoTermux/mini-llm-termux" },
+    { id: 62, cmd: "cd mini-llm-termux && bash install.sh", desc: "Instalar Mini LLM — dependências e configuração automática.", level: "intermediario", cat: "personalizar", tags: ["llm", "install"], repo: "mini-llm-termux", repoUrl: "https://github.com/ClubeDoTermux/mini-llm-termux" },
+    { id: 63, cmd: "pip install requests beautifulsoup4",  desc: "Dependências Python para o Mini LLM acessar internet e aprender.", level: "intermediario", cat: "personalizar", tags: ["python", "llm", "dependencias"], repo: "mini-llm-termux", repoUrl: "https://github.com/ClubeDoTermux/mini-llm-termux" },
+    { id: 64, cmd: "chsh -s zsh",                         desc: "Definir Zsh como shell padrão do Termux.", level: "basico", cat: "personalizar", tags: ["zsh", "shell", "padrao"] },
+    { id: 65, cmd: "exec zsh",                            desc: "Ativar Zsh na sessão atual sem reiniciar o Termux.", level: "basico", cat: "personalizar", tags: ["zsh", "exec"] },
+    { id: 66, cmd: "nano ~/.zshrc",                       desc: "Editar manualmente o arquivo de configuração do Zsh.", level: "intermediario", cat: "personalizar", tags: ["zshrc", "nano", "config"] },
+    { id: 67, cmd: "cp ~/.zshrc ~/.zshrc.bak",            desc: "Fazer backup do .zshrc antes de modificar.", level: "basico", cat: "personalizar", tags: ["backup", "zshrc"] },
+
+    // =============================================
+    // PENTEST & INVESTIGAÇÃO (repos do usuário)
+    // =============================================
+    { id: 68, cmd: "git clone https://github.com/ClubeDoTermux/cybertrace-panel", desc: "Clonar CyberTrace Panel — painel de investigação digital (CPF, CNPJ, IP, CEP, Placa).", level: "intermediario", cat: "investigacao", tags: ["cybertrace", "painel", "osint"], repo: "cybertrace-panel", repoUrl: "https://github.com/ClubeDoTermux/cybertrace-panel" },
+    { id: 69, cmd: "cd cybertrace-panel && bash cybertrace.sh", desc: "Executar CyberTrace Panel — ferramenta completa de consultas.", level: "intermediario", cat: "investigacao", tags: ["cybertrace", "consulta", "osint"], repo: "cybertrace-panel", repoUrl: "https://github.com/ClubeDoTermux/cybertrace-panel" },
+    { id: 70, cmd: "python cpf_consulta.py",              desc: "Executar consulta de CPF via CyberTrace Panel.", level: "intermediario", cat: "investigacao", tags: ["cpf", "consulta", "python"], repo: "cybertrace-panel", repoUrl: "https://github.com/ClubeDoTermux/cybertrace-panel" },
+    { id: 71, cmd: "git clone https://github.com/ClubeDoTermux/ALHacking", desc: "Clonar ALHacking — suite completa de ferramentas de hacking.", level: "avancado", cat: "investigacao", tags: ["alhacking", "hacking", "tools"], repo: "ALHacking", repoUrl: "https://github.com/ClubeDoTermux/ALHacking" },
+    { id: 72, cmd: "cd ALHacking && bash alhack.sh",      desc: "Executar ALHacking Tools — menu com phishing, webcam hack, DDoS, subscan e mais.", level: "avancado", cat: "investigacao", tags: ["alhacking", "menu", "tools"], repo: "ALHacking", repoUrl: "https://github.com/ClubeDoTermux/ALHacking" },
+    { id: 73, cmd: "cd ALHacking/Tools && git clone https://github.com/htr-tech/zphisher", desc: "Instalar Zphisher — ferramenta de phishing do ALHacking.", level: "avancado", cat: "investigacao", tags: ["zphisher", "phishing"], repo: "ALHacking", repoUrl: "https://github.com/ClubeDoTermux/ALHacking" },
+    { id: 74, cmd: "cd ALHacking/Tools && git clone https://github.com/techchipnet/CamPhish", desc: "Instalar CamPhish — hack de webcam via link.", level: "avancado", cat: "investigacao", tags: ["camphish", "webcam"], repo: "ALHacking", repoUrl: "https://github.com/ClubeDoTermux/ALHacking" },
+    { id: 75, cmd: "nmap -sV 192.168.0.1",               desc: "Nmap — escaneamento de versão de serviços em um IP.", level: "intermediario", cat: "rede", tags: ["nmap", "scan"] },
+    { id: 76, cmd: "nmap -p- 192.168.0.1",               desc: "Nmap — escaneamento de TODAS as 65535 portas.", level: "avancado", cat: "rede", tags: ["nmap", "portas"] },
+    { id: 77, cmd: "nmap --script vuln 192.168.0.1",      desc: "Nmap — escanear vulnerabilidades conhecidas.", level: "avancado", cat: "investigacao", tags: ["nmap", "vuln"] },
+    { id: 78, cmd: "pkg install nmap",                    desc: "Instalar Nmap — scanner de portas para análise de rede.", level: "intermediario", cat: "rede", tags: ["nmap", "install"] },
+    { id: 79, cmd: "pkg install hydra",                   desc: "Hydra — brute-force em senhas de serviços.", level: "avancado", cat: "investigacao", tags: ["hydra", "bruteforce"] },
+    { id: 80, cmd: "hydra -l admin -P senhas.txt ssh://192.168.0.1", desc: "Brute-force SSH com lista de senhas.", level: "avancado", cat: "investigacao", tags: ["hydra", "ssh"] },
+    { id: 81, cmd: "pkg install sqlmap",                  desc: "SQLMap — detecção e exploração de SQL injection.", level: "avancado", cat: "investigacao", tags: ["sqlmap", "sqli"] },
+    { id: 82, cmd: "sqlmap -u 'http://site.com/page?id=1' --dbs", desc: "SQLMap — listar bancos de dados do alvo.", level: "avancado", cat: "investigacao", tags: ["sqlmap"] },
+    { id: 83, cmd: "pkg install metasploit",              desc: "Metasploit — framework de exploração e payloads.", level: "avancado", cat: "investigacao", tags: ["metasploit", "exploit"] },
+    { id: 84, cmd: "pkg install john",                    desc: "John The Ripper — cracker de senhas.", level: "avancado", cat: "investigacao", tags: ["john", "senha"] },
+    { id: 85, cmd: "pkg install aircrack-ng",             desc: "Aircrack-ng — suite de auditoria Wi-Fi.", level: "avancado", cat: "rede", tags: ["aircrack"] },
+    { id: 86, cmd: "pkg install wireshark",               desc: "Wireshark — analisador de pacotes de rede.", level: "avancado", cat: "rede", tags: ["wireshark", "packet"] },
+    { id: 87, cmd: "pkg install tcpdump",                 desc: "Tcpdump — capturar tráfego de rede via terminal.", level: "avancado", cat: "rede", tags: ["tcpdump"] },
+    { id: 88, cmd: "tcpdump -i wlan0 -n port 80",         desc: "Capturar tráfego HTTP na interface Wi-Fi.", level: "avancado", cat: "rede", tags: ["tcpdump"] },
+    { id: 89, cmd: "pkg install nikto",                   desc: "Nikto — scanner de vulnerabilidades web.", level: "avancado", cat: "investigacao", tags: ["nikto", "web"] },
+    { id: 90, cmd: "nikto -h http://192.168.0.1",         desc: "Nikto — escanear servidor web alvo.", level: "avancado", cat: "investigacao", tags: ["nikto"] },
+    { id: 91, cmd: "pkg install recon-ng",                desc: "Recon-NG — framework completo de OSINT.", level: "avancado", cat: "investigacao", tags: ["recon-ng", "osint"] },
+    { id: 92, cmd: "pkg install sherlock",                desc: "Sherlock — buscar contas em redes sociais por username.", level: "avancado", cat: "investigacao", tags: ["sherlock", "osint"] },
+    { id: 93, cmd: "sherlock usuario",                    desc: "Buscar nome de usuário em centenas de sites.", level: "avancado", cat: "investigacao", tags: ["sherlock"] },
+    { id: 94, cmd: "pkg install holehe",                  desc: "Holehe — verificar emails em serviços online.", level: "avancado", cat: "investigacao", tags: ["holehe", "email"] },
+    { id: 95, cmd: "holehe email@example.com",            desc: "Verificar se email está cadastrado em sites.", level: "avancado", cat: "investigacao", tags: ["holehe"] },
+    { id: 96, cmd: "pkg install theharvester",            desc: "TheHarvester — coleta de emails e subdomínios.", level: "avancado", cat: "investigacao", tags: ["theharvester", "osint"] },
+    { id: 97, cmd: "theharvester -d google.com -b google", desc: "Coletar informações de domínio com TheHarvester.", level: "avancado", cat: "investigacao", tags: ["theharvester"] },
+    { id: 98, cmd: "pkg install exploitdb",               desc: "ExploitDB — banco local de exploits famosos.", level: "avancado", cat: "investigacao", tags: ["exploitdb"] },
+    { id: 99, cmd: "searchsploit apache",                 desc: "SearchSploit — buscar exploits no ExploitDB.", level: "avancado", cat: "investigacao", tags: ["searchsploit"] },
+    { id: 100, cmd: "pkg install bettercap",              desc: "BetterCAP — framework de ataque e monitoramento de rede.", level: "avancado", cat: "rede", tags: ["bettercap"] },
+    { id: 101, cmd: "bettercap -eval 'net.probe on'",     desc: "BetterCAP — descobrir dispositivos na rede.", level: "avancado", cat: "rede", tags: ["bettercap"] },
+    { id: 102, cmd: "pkg install arp-scan",               desc: "Arp-scan — descobrir IPs e MACs na rede local.", level: "avancado", cat: "rede", tags: ["arp-scan"] },
+    { id: 103, cmd: "arp-scan --localnet",                 desc: "Escaneamento ARP de toda rede local.", level: "avancado", cat: "rede", tags: ["arp-scan"] },
+    { id: 104, cmd: "pkg install wifite",                 desc: "Wifite — automatizar ataques a redes Wi-Fi.", level: "avancado", cat: "rede", tags: ["wifite"] },
+    { id: 105, cmd: "pkg install dnsutils",               desc: "DNS Utils — nslookup, dig para consultas DNS.", level: "avancado", cat: "rede", tags: ["dns", "dig"] },
+    { id: 106, cmd: "dig +short google.com",              desc: "Resolver DNS rápido de um domínio.", level: "avancado", cat: "rede", tags: ["dig"] },
+    { id: 107, cmd: "whois google.com",                   desc: "Whois — obter dados de registro de domínio.", level: "avancado", cat: "rede", tags: ["whois"] },
+
+    // =============================================
+    // WEB & SERVIDORES
+    // =============================================
+    { id: 108, cmd: "pkg install python && pip install flask", desc: "Instalar Flask — framework web Python para APIs e sites.", level: "intermediario", cat: "web", tags: ["flask", "python", "web"] },
+    { id: 109, cmd: "python -m http.server 8080",         desc: "Servidor HTTP Python simples para compartilhar arquivos.", level: "intermediario", cat: "web", tags: ["python", "http"] },
+    { id: 110, cmd: "pkg install php",                    desc: "PHP — linguagem server-side para web dinâmica.", level: "intermediario", cat: "web", tags: ["php", "web"] },
+    { id: 111, cmd: "php -S 0.0.0.0:8080",               desc: "Servidor PHP embutido rodando na porta 8080.", level: "intermediario", cat: "web", tags: ["php", "server"] },
+    { id: 112, cmd: "pkg install nginx",                  desc: "Nginx — servidor web reverso e proxy.", level: "intermediario", cat: "web", tags: ["nginx", "servidor"] },
+    { id: 113, cmd: "pkg install nodejs && npm init -y",  desc: "Iniciar projeto Node.js com package.json.", level: "intermediario", cat: "web", tags: ["nodejs", "npm"] },
+    { id: 114, cmd: "npm install express",                desc: "ExpressJS — framework web para Node.js.", level: "intermediario", cat: "web", tags: ["express", "nodejs"] },
+    { id: 115, cmd: "curl ifconfig.me",                   desc: "Descobrir seu IP público externo.", level: "intermediario", cat: "web", tags: ["curl", "ip"] },
+    { id: 116, cmd: "pkg install postgresql",             desc: "PostgreSQL — banco relacional avançado.", level: "intermediario", cat: "web", tags: ["postgresql", "banco"] },
+    { id: 117, cmd: "pkg install redis",                  desc: "Redis — banco chave-valor em memória para cache.", level: "intermediario", cat: "web", tags: ["redis", "cache"] },
+    { id: 118, cmd: "wget --mirror -p --convert-links URL", desc: "Baixar site inteiro para backup offline.", level: "avancado", cat: "web", tags: ["wget", "mirror"] },
+
+    // =============================================
+    // PROGRAMAÇÃO
+    // =============================================
+    { id: 119, cmd: "pip install requests",               desc: "Requests — biblioteca Python para requisições HTTP.", level: "intermediario", cat: "programacao", tags: ["requests", "python"] },
+    { id: 120, cmd: "pip install beautifulsoup4",         desc: "BeautifulSoup4 — web scraping com Python.", level: "intermediario", cat: "programacao", tags: ["beautifulsoup", "scraping"] },
+    { id: 121, cmd: "pip install pandas",                 desc: "Pandas — análise e manipulação de dados.", level: "intermediario", cat: "programacao", tags: ["pandas", "dados"] },
+    { id: 122, cmd: "pip install numpy",                  desc: "NumPy — computação numérica e matrizes.", level: "intermediario", cat: "programacao", tags: ["numpy"] },
+    { id: 123, cmd: "pip install discord.py",             desc: "Criar bot para Discord com Python.", level: "intermediario", cat: "programacao", tags: ["discord", "bot"] },
+    { id: 124, cmd: "pkg install go",                     desc: "Go — linguagem compilada rápida.", level: "avancado", cat: "programacao", tags: ["golang", "go"] },
+    { id: 125, cmd: "pkg install rust",                   desc: "Rust — linguagem segura e performática.", level: "avancado", cat: "programacao", tags: ["rust"] },
+    { id: 126, cmd: "pkg install gcc",                    desc: "GCC — compilador C/C++ no Termux.", level: "avancado", cat: "programacao", tags: ["gcc", "c"] },
+    { id: 127, cmd: "pkg install lua",                    desc: "Lua — linguagem leve para scripts.", level: "avancado", cat: "programacao", tags: ["lua"] },
+    { id: 128, cmd: "pkg install ruby",                   desc: "Ruby — linguagem para web e scripts.", level: "avancado", cat: "programacao", tags: ["ruby"] },
+    { id: 129, cmd: "pip install opencv-python",          desc: "OpenCV — visão computacional.", level: "avancado", cat: "programacao", tags: ["opencv"] },
+    { id: 130, cmd: "pip install tensorflow",             desc: "TensorFlow — machine learning.", level: "avancado", cat: "programacao", tags: ["tensorflow", "ml"] },
+    { id: 131, cmd: "pip install torch",                  desc: "PyTorch — deep learning.", level: "avancado", cat: "programacao", tags: ["pytorch"] },
+    { id: 132, cmd: "npm install socket.io",              desc: "Socket.IO — comunicação bidirecional em tempo real.", level: "intermediario", cat: "programacao", tags: ["socket.io"] },
+
+    // =============================================
+    // GIT & GITHUB
+    // =============================================
+    { id: 133, cmd: "git clone https://github.com/ClubeDoTermux/clube-do-termux", desc: "Clonar o repositório oficial do Clube do Termux.", level: "basico", cat: "git", tags: ["clone", "clube-do-termux"], repo: "clube-do-termux", repoUrl: "https://github.com/ClubeDoTermux/clube-do-termux" },
+    { id: 134, cmd: "git init && git add . && git commit -m 'init'", desc: "Iniciar repositório Git e fazer primeiro commit.", level: "intermediario", cat: "git", tags: ["git", "init"] },
+    { id: 135, cmd: "git push origin main",               desc: "Enviar commits para branch main do repositório.", level: "intermediario", cat: "git", tags: ["git", "push"] },
+    { id: 136, cmd: "git pull origin main",               desc: "Atualizar branch local com mudanças do remoto.", level: "intermediario", cat: "git", tags: ["git", "pull"] },
+    { id: 137, cmd: "git checkout -b feature-nova",       desc: "Criar e trocar para nova branch.", level: "intermediario", cat: "git", tags: ["git", "branch"] },
+    { id: 138, cmd: "git log --oneline --graph --all",    desc: "Visualizar histórico de commits em grafo.", level: "intermediario", cat: "git", tags: ["git", "log"] },
+
+    // =============================================
+    // SSH & REMOTO
+    // =============================================
+    { id: 139, cmd: "pkg install openssh && ssh-keygen",  desc: "Gerar chave SSH para autenticação segura.", level: "intermediario", cat: "ssh", tags: ["ssh", "keygen"] },
+    { id: 140, cmd: "ssh-copy-id usuario@ip",             desc: "Copiar chave pública SSH para servidor remoto.", level: "intermediario", cat: "ssh", tags: ["ssh-copy-id"] },
+    { id: 141, cmd: "pkg install rsync",                  desc: "Rsync — sincronização eficiente de arquivos.", level: "intermediario", cat: "ssh", tags: ["rsync", "sync"] },
+    { id: 142, cmd: "scp arquivo.txt user@ip:/home/",     desc: "Copiar arquivo via SSH com SCP.", level: "intermediario", cat: "ssh", tags: ["scp", "ssh"] },
+
+    // =============================================
+    // SISTEMA & PROOT
+    // =============================================
+    { id: 143, cmd: "pkg install proot",                  desc: "Proot — rodar distribuições Linux sem root.", level: "avancado", cat: "sistema", tags: ["proot", "linux"] },
+    { id: 144, cmd: "pkg install proot-distro",           desc: "Proot-distro — gerenciar distribuições Linux.", level: "avancado", cat: "sistema", tags: ["proot-distro"] },
+    { id: 145, cmd: "proot-distro install ubuntu",        desc: "Instalar Ubuntu no Termux via proot.", level: "avancado", cat: "sistema", tags: ["ubuntu", "proot"] },
+    { id: 146, cmd: "proot-distro install debian",        desc: "Instalar Debian no Termux.", level: "avancado", cat: "sistema", tags: ["debian", "proot"] },
+    { id: 147, cmd: "proot-distro install kali",          desc: "Instalar Kali Linux no Termux (sem root).", level: "avancado", cat: "sistema", tags: ["kali", "proot"] },
+    { id: 148, cmd: "proot-distro login ubuntu",          desc: "Entrar no Ubuntu instalado via proot.", level: "avancado", cat: "sistema", tags: ["proot", "ubuntu"] },
+    { id: 149, cmd: "pkg install x11-repo",              desc: "Adicionar repositório X11 para apps gráficos.", level: "avancado", cat: "sistema", tags: ["x11", "repo"] },
+    { id: 150, cmd: "pkg install xfce4 tigervnc",        desc: "XFCE + VNC — desktop gráfico no Termux.", level: "avancado", cat: "sistema", tags: ["xfce", "vnc", "desktop"] },
+    { id: 151, cmd: "vncserver :1",                      desc: "Iniciar servidor VNC na porta 5901.", level: "avancado", cat: "sistema", tags: ["vncserver"] },
+    { id: 152, cmd: "pkg install code-server",           desc: "code-server — VS Code rodando no navegador.", level: "avancado", cat: "sistema", tags: ["code-server", "vscode"] },
+
+    // =============================================
+    // MÍDIA
+    // =============================================
+    { id: 153, cmd: "ffmpeg -i video.mp4 -vf scale=640:480 output.mp4", desc: "Redimensionar vídeo para 640x480 com FFmpeg.", level: "avancado", cat: "midia", tags: ["ffmpeg"] },
+    { id: 154, cmd: "ffmpeg -i video.mp4 -ss 00:01:30 -t 5 clip.mp4", desc: "Cortar clipe de 5 segundos.", level: "avancado", cat: "midia", tags: ["ffmpeg"] },
+    { id: 155, cmd: "ffmpeg -i video.mp4 -vn -c:a mp3 audio.mp3", desc: "Extrair áudio de vídeo para MP3.", level: "avancado", cat: "midia", tags: ["ffmpeg"] },
+    { id: 156, cmd: "ffmpeg -f image2 -i frame%04d.png video.mp4", desc: "Criar vídeo a partir de imagens.", level: "avancado", cat: "midia", tags: ["ffmpeg"] },
+    { id: 157, cmd: "yt-dlp -x --audio-format mp3 'URL'", desc: "Baixar apenas áudio em MP3.", level: "intermediario", cat: "midia", tags: ["yt-dlp"] },
+
+    // =============================================
+    // DIVERSÃO
+    // =============================================
+    { id: 158, cmd: "pkg install cmatrix",               desc: "Cmatrix — chuva de códigos verde estilo Matrix.", level: "basico", cat: "diversao", tags: ["cmatrix", "matrix"] },
+    { id: 159, cmd: "pkg install sl",                    desc: "SL — trem atravessa a tela quando você erra 'ls'.", level: "basico", cat: "diversao", tags: ["sl", "easter-egg"] },
+    { id: 160, cmd: "pkg install cowsay",                desc: "Cowsay — vaca falante em ASCII.", level: "basico", cat: "diversao", tags: ["cowsay", "ascii"] },
+    { id: 161, cmd: "pkg install lolcat",                desc: "Lolcat — output colorido arco-íris.", level: "basico", cat: "diversao", tags: ["lolcat"] },
+    { id: 162, cmd: "pkg install nyancat",               desc: "Nyancat — gato nyan animado no terminal.", level: "basico", cat: "diversao", tags: ["nyancat"] },
+    { id: 163, cmd: "pkg install pipes.sh",              desc: "Pipes — animação de tubos 3D.", level: "basico", cat: "diversao", tags: ["pipes"] },
+    { id: 164, cmd: "pkg install asciiquarium",          desc: "Aquário com peixes animados em ASCII.", level: "basico", cat: "diversao", tags: ["asciiquarium"] },
+    { id: 165, cmd: "pkg install fortune",               desc: "Fortune — citações aleatórias.", level: "basico", cat: "diversao", tags: ["fortune"] },
+    { id: 166, cmd: "pkg install bpytop",                desc: "Bpytop — monitor de sistema colorido.", level: "basico", cat: "diversao", tags: ["bpytop"] },
+
+    // =============================================
+    // TERMUX API
+    // =============================================
+    { id: 167, cmd: "termux-wifi-scaninfo",              desc: "Escaneie redes Wi-Fi ao redor.", level: "basico", cat: "api", tags: ["wifi"] },
+    { id: 168, cmd: "termux-camera-photo /sdcard/foto.jpg", desc: "Tirar foto via câmera do terminal.", level: "basico", cat: "api", tags: ["camera"] },
+    { id: 169, cmd: "termux-battery-status",             desc: "Ver status da bateria do celular.", level: "basico", cat: "api", tags: ["bateria"] },
+    { id: 170, cmd: "termux-tts-speak \"Hello\"",        desc: "Texto-para-fala: celular fala a frase.", level: "basico", cat: "api", tags: ["tts"] },
+    { id: 171, cmd: "termux-torch on",                   desc: "Ligar flash da câmera (lanterna).", level: "basico", cat: "api", tags: ["torch"] },
+    { id: 172, cmd: "termux-vibrate -d 500",             desc: "Vibrar o celular por 500ms.", level: "basico", cat: "api", tags: ["vibrate"] },
+    { id: 173, cmd: "termux-notification --title \"Oi\" --content \"Mundo\"", desc: "Enviar notificação push do terminal.", level: "basico", cat: "api", tags: ["notificacao"] },
+    { id: 174, cmd: "termux-clipboard-set texto",        desc: "Copiar texto para área de transferência.", level: "basico", cat: "api", tags: ["clipboard"] },
+    { id: 175, cmd: "termux-clipboard-get",              desc: "Ler texto da área de transferência.", level: "basico", cat: "api", tags: ["clipboard"] },
+    { id: 176, cmd: "termux-contact-list",               desc: "Listar contatos do celular.", level: "intermediario", cat: "api", tags: ["contatos"] },
+    { id: 177, cmd: "termux-sms-send -n 5511999999999 \"Oi\"", desc: "Enviar SMS via terminal.", level: "intermediario", cat: "api", tags: ["sms"] },
+    { id: 178, cmd: "termux-location",                   desc: "Obter coordenadas GPS atuais.", level: "intermediario", cat: "api", tags: ["gps"] },
+    { id: 179, cmd: "termux-sensor -s \"Accelerometer\" -n 1", desc: "Ler dados do acelerômetro.", level: "intermediario", cat: "api", tags: ["sensor"] },
+  ];
+
+  const categories = [
+    { id: 'iniciante', label: 'Iniciante', icon: 'fa-seedling' },
+    { id: 'personalizar', label: 'Personalização (Repos)', icon: 'fa-paint-brush' },
+    { id: 'investigacao', label: 'Pentest & Investigação', icon: 'fa-skull' },
+    { id: 'rede', label: 'Rede', icon: 'fa-wifi' },
+    { id: 'web', label: 'Web & Servidores', icon: 'fa-globe' },
+    { id: 'programacao', label: 'Programação', icon: 'fa-code' },
+    { id: 'git', label: 'Git & GitHub', icon: 'fa-code-branch' },
+    { id: 'ssh', label: 'SSH & Remoto', icon: 'fa-lock' },
+    { id: 'sistema', label: 'Sistema & Proot', icon: 'fa-cog' },
+    { id: 'midia', label: 'Mídia', icon: 'fa-music' },
+    { id: 'diversao', label: 'Diversão', icon: 'fa-gamepad' },
+    { id: 'api', label: 'Termux API', icon: 'fa-microchip' },
+  ];
+
+  (function initParticles() {
+    const c = document.getElementById('particles');
+    for (let i = 0; i < 30; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      p.style.left = Math.random() * 100 + '%';
+      p.style.animationDelay = Math.random() * 6 + 's';
+      p.style.animationDuration = (4 + Math.random() * 4) + 's';
+      p.style.width = p.style.height = (2 + Math.random() * 3) + 'px';
+      c.appendChild(p);
+    }
+  })();
+
+  const container = document.getElementById('tutorialsContainer');
+  const searchInput = document.getElementById('searchInput');
+  const clearBtn = document.getElementById('clearBtn');
+  const filterGroup = document.getElementById('filterGroup');
+  const resultCount = document.getElementById('resultCount');
+  const noResults = document.getElementById('noResults');
+  const totalTuts = document.getElementById('totalTuts');
+  let activeFilter = 'all';
+  let searchTerm = '';
+  totalTuts.textContent = tutorials.length + '+';
+
+  function getLevelBadge(level) {
+    const labels = { basico: 'Básico', intermediario: 'Inter.', avancado: 'Avançado' };
+    return `<span class="level ${level}">${labels[level] || level}</span>`;
+  }
+
+  function escapeHtml(s) {
+    return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  function render() {
+    container.innerHTML = '';
+    const filtered = tutorials.filter(t => {
+      if (activeFilter !== 'all' && t.level !== activeFilter) return false;
+      if (searchTerm) {
+        const term = searchTerm.toLowerCase();
+        return t.cmd.toLowerCase().includes(term) ||
+               t.desc.toLowerCase().includes(term) ||
+               t.tags.some(tag => tag.toLowerCase().includes(term));
+      }
+      return true;
+    });
+
+    resultCount.textContent = searchTerm || activeFilter !== 'all'
+      ? `Mostrando ${filtered.length} de ${tutorials.length} tutoriais`
+      : `Mostrando todos os ${tutorials.length} tutoriais`;
+
+    noResults.classList.toggle('show', filtered.length === 0);
+
+    const grouped = {};
+    filtered.forEach(t => {
+      if (!grouped[t.cat]) grouped[t.cat] = [];
+      grouped[t.cat].push(t);
+    });
+
+    categories.forEach(cat => {
+      const tuts = grouped[cat.id];
+      if (!tuts || tuts.length === 0) return;
+      const section = document.createElement('div');
+      section.className = 'category';
+      section.id = 'cat-' + cat.id;
+      section.innerHTML = `
+        <div class="category-header" data-target="${cat.id}">
+          <div class="icon"><i class="fas ${cat.icon}"></i></div>
+          <h2>${cat.label}</h2>
+          <span class="count">${tuts.length} tutoriais</span>
+          <span class="toggle-icon"><i class="fas fa-chevron-down"></i></span>
+        </div>
+        <div class="tutorial-grid"></div>
+      `;
+      const grid = section.querySelector('.tutorial-grid');
+      tuts.forEach(t => {
+        const card = document.createElement('div');
+        card.className = 'tutorial-card';
+        card.dataset.id = t.id;
+        let repoBadge = '';
+        if (t.repo) {
+          repoBadge = `<div class="repo-badge"><i class="fab fa-github"></i> ${t.repo}</div>`;
+        }
+        card.innerHTML = `
+          <button class="copy-btn" title="Copiar comando"><i class="fas fa-copy"></i></button>
+          <div class="num">#${String(t.id).padStart(3, '0')} ${getLevelBadge(t.level)}</div>
+          <div class="cmd"><i class="fas fa-chevron-right"></i> ${escapeHtml(t.cmd)}</div>
+          <div class="desc">${escapeHtml(t.desc)}</div>
+          ${repoBadge}
+          <div class="tags">
+            ${t.tags.slice(0, 3).map(tag => `<span class="tag cmd-tag">#${tag}</span>`).join('')}
+          </div>
+        `;
+        card.addEventListener('click', (e) => {
+          if (e.target.closest('.copy-btn')) return;
+          openModal(t);
+        });
+        const copyBtn = card.querySelector('.copy-btn');
+        copyBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          navigator.clipboard.writeText(t.cmd).then(() => {
+            copyBtn.innerHTML = '<i class="fas fa-check"></i>';
+            copyBtn.classList.add('copied');
+            setTimeout(() => {
+              copyBtn.innerHTML = '<i class="fas fa-copy"></i>';
+              copyBtn.classList.remove('copied');
+            }, 2000);
+          });
+        });
+        grid.appendChild(card);
+      });
+      const header = section.querySelector('.category-header');
+      header.addEventListener('click', () => {
+        section.classList.toggle('collapsed');
+        const icon = header.querySelector('.toggle-icon i');
+        icon.classList.toggle('fa-chevron-down');
+        icon.classList.toggle('fa-chevron-up');
+      });
+      container.appendChild(section);
+    });
+    buildQuickNav();
+  }
+
+  function buildQuickNav() {
+    const nav = document.getElementById('quickNav');
+    nav.innerHTML = '';
+    container.querySelectorAll('.category').forEach(s => {
+      const a = document.createElement('a');
+      a.href = '#' + s.id;
+      a.title = s.querySelector('h2')?.textContent || '';
+      nav.appendChild(a);
+    });
+  }
+
+  const modalOverlay = document.getElementById('modalOverlay');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalDesc = document.getElementById('modalDesc');
+  const modalCmd = document.getElementById('modalCmd');
+  const modalOutput = document.getElementById('modalOutput');
+  const modalClose = document.getElementById('modalClose');
+  const modalCopyBtn = document.getElementById('modalCopyBtn');
+  const modalRepoLink = document.getElementById('modalRepoLink');
+  const modalRepoName = document.getElementById('modalRepoName');
+
+  function openModal(t) {
+    modalTitle.textContent = `#${String(t.id).padStart(3, '0')} · ${t.cmd.substring(0, 40)}${t.cmd.length > 40 ? '...' : ''}`;
+    modalDesc.textContent = t.desc;
+    modalCmd.textContent = t.cmd;
+
+    if (t.repo && t.repoUrl) {
+      modalRepoLink.style.display = 'inline-flex';
+      modalRepoLink.href = t.repoUrl;
+      modalRepoName.textContent = t.repo;
+    } else {
+      modalRepoLink.style.display = 'none';
+    }
+
+    const outputs = {
+      basico: [
+        '<span class="prompt-symbol">$</span> <span class="output-text">Reading package lists... Done</span>',
+        '<span class="prompt-symbol">$</span> <span class="output-text">Building dependency tree... Done</span>',
+        '<span class="prompt-symbol">✓</span> <span class="output-text" style="color:#00ff88;">Package installed successfully</span>',
+      ],
+      intermediario: [
+        '<span class="prompt-symbol">$</span> <span class="output-text">Cloning repository... Done</span>',
+        '<span class="prompt-symbol">$</span> <span class="output-text">Compiling dependencies...</span>',
+        '<span class="prompt-symbol">✓</span> <span class="output-text" style="color:#00ff88;">Build complete — 0 errors</span>',
+      ],
+      avancado: [
+        '<span class="prompt-symbol">#</span> <span class="output-text">Initializing module...</span>',
+        '<span class="prompt-symbol">#</span> <span class="output-text">Target: 192.168.0.1 — Status: Online</span>',
+        '<span class="prompt-symbol">!</span> <span class="output-text" style="color:#ff5a5a;">Use responsibly · Ethical hacking only</span>',
+      ],
+    };
+    const outLines = outputs[t.level] || outputs.basico;
+    modalOutput.innerHTML = outLines.map(l => `<div>${l}</div>`).join('');
+    modalOverlay.classList.add('open');
+  }
+
+  modalClose.addEventListener('click', () => modalOverlay.classList.remove('open'));
+  modalOverlay.addEventListener('click', (e) => {
+    if (e.target === modalOverlay) modalOverlay.classList.remove('open');
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') modalOverlay.classList.remove('open');
+  });
+
+  modalCopyBtn.addEventListener('click', () => {
+    navigator.clipboard.writeText(modalCmd.textContent).then(() => {
+      modalCopyBtn.innerHTML = '<i class="fas fa-check"></i> Copiado!';
+      setTimeout(() => {
+        modalCopyBtn.innerHTML = '<i class="fas fa-copy"></i> Copiar';
+      }, 2000);
+    });
+  });
+
+  searchInput.addEventListener('input', () => {
+    searchTerm = searchInput.value;
+    clearBtn.classList.toggle('show', searchTerm.length > 0);
+    render();
+  });
+
+  clearBtn.addEventListener('click', () => {
+    searchInput.value = '';
+    searchTerm = '';
+    clearBtn.classList.remove('show');
+    render();
+  });
+
+  filterGroup.addEventListener('click', (e) => {
+    const btn = e.target.closest('.filter-btn');
+    if (!btn) return;
+    filterGroup.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeFilter = btn.dataset.level;
+    render();
+  });
+
+  render();
+</script>
+
+</body>
+</html>
